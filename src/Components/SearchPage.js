@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PlanetCard from './PlanetCard';
 import { updateSearchResultsAction, updateFetchStatusAction } from '../Actions/searchAction';
-import Debounce from '../utils/debouce';
+import debounce from '../utils/debouce';
+import throttle from '../utils/throttle';
 
 class SearchPage extends Component {
   constructor() {
@@ -22,7 +23,10 @@ class SearchPage extends Component {
           nextUrl: data.next,
         });
       });
-    document.querySelector('.search-textfield').addEventListener('keydown', Debounce(this.fetchResults, 500));
+    document.querySelector('.search-textfield').addEventListener(
+      'keydown',
+      debounce(throttle(this.fetchResults, 60000), 500),
+    );
   }
 
   fetchResults = () => {

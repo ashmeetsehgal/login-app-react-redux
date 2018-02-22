@@ -1,4 +1,4 @@
-const Debounce = (func, delay) => {
+const debounce = (func, delay) => {
   let timeout;
   return () => {
     const context = this;
@@ -11,4 +11,4 @@ const Debounce = (func, delay) => {
     );
   };
 };
-export default Debounce;
+export default debounce;
