@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PlanetCard from './PlanetCard';
-import { updateSearchResultsAction } from '../Actions/searchAction';
+import { updateSearchResultsAction, updateFetchStatusAction } from '../Actions/searchAction';
 import Debounce from '../utils/debouce';
 
 class SearchPage extends Component {
@@ -27,14 +27,20 @@ class SearchPage extends Component {
 
   fetchResults = () => {
     const { searchString } = this.state;
-    const { updateSearchResults } = this.props;
+    const { updateSearchResults, updateFetchStatus } = this.props;
+    updateFetchStatus({
+      isFetching: true,
+    });
     fetch(`https://swapi.co/api/planets/?search=${searchString}`)
       .then(res => res.json()).then((data) => {
         updateSearchResults({
           results: data.results,
           prevUrl: data.previous,
           nextUrl: data.next,
+          isFetching: false,
         });
+      }).catch((err) => {
+        console.log(`error in fetching swapi api ${err}`);
       });
   }
 
@@ -45,9 +51,9 @@ class SearchPage extends Component {
     });
   }
   goTopage = (url) => {
-    const { updateSearchResults } = this.props;
-    updateSearchResults({
-      isFething: true,
+    const { updateSearchResults, updateFetchStatus } = this.props;
+    updateFetchStatus({
+      isFetching: true,
     });
     fetch(url)
       .then(res => res.json()).then((data) => {
@@ -55,15 +61,17 @@ class SearchPage extends Component {
           results: data.results,
           prevUrl: data.previous,
           nextUrl: data.next,
-          isFething: false,
+          isFetching: false,
         });
       });
   }
   renderPlanetCard = (results) => {
-    const planetCards = results.map(i => (
-      <PlanetCard key={i.name} planetDetails={i} />
-    ));
-    return planetCards;
+    if (results.length > 0) {
+      const planetCards = results.map(i => (
+        <PlanetCard key={i.name} planetDetails={i} />
+      ));
+      return planetCards;
+    } return <div> No results found </div>;
   }
 
   render() {
@@ -75,6 +83,7 @@ class SearchPage extends Component {
       results,
       prevUrl,
       nextUrl,
+      isFetching,
     } = props;
     return (
       <div>
@@ -85,9 +94,13 @@ class SearchPage extends Component {
           value={searchString}
           onChange={updateResults}
         />
-        {renderPlanetCard(results)}
-        {prevUrl && <button onClick={() => goTopage(prevUrl)} > Previous </button>}
-        {nextUrl && <button onClick={() => goTopage(nextUrl)}> Next </button>}
+        {isFetching ? <div> Loading </div> :
+        <Fragment>
+          {renderPlanetCard(results)}
+          {prevUrl && <button onClick={() => goTopage(prevUrl)} > Previous </button>}
+          {nextUrl && <button onClick={() => goTopage(nextUrl)}> Next </button>}
+        </Fragment>
+        }
       </div>
     );
   }
@@ -98,9 +111,11 @@ const mapStateToProps = state => ({
   prevUrl: state.searchReducer.prevUrl,
   nextUrl: state.searchReducer.nextUrl,
   searchString: state.searchReducer.searchString,
+  isFetching: state.searchReducer.isFetching,
 });
 const mapDispatchToProps = dispatch => ({
   updateSearchResults: props => dispatch(updateSearchResultsAction(props)),
+  updateFetchStatus: props => dispatch(updateFetchStatusAction(props)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
