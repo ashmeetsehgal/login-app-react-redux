@@ -1,15 +1,16 @@
 {
-    "extends": "airbnb",
+    "parser":"babel-eslint",
+    "plugins": [
+        "react-redux"
+    ],
+    "extends": ["airbnb","plugin:react-redux/recommended"],
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "jsx-quotes": [2, "prefer-single"],
-        "react/jsx-curly-spacing": [2, "always"],
-        "react/prefer-stateless-function": [0],
         "semi": ["error", "always"],
         "quotes": ["error", "single"]
     },
     "env": {
-        "browser": true,
-        "node": true
+        "browser": true
     }
   }

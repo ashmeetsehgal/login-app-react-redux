@@ -1,0 +1,48 @@
+.planet-card {
+  margin: 20px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border: solid 1px #C0C0C0;
+  .planet-details {
+    width: 40%;
+    margin-left: 20px;
+    .planet-name, .planet-terrain {
+      width: calc(100% - 62px);
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .planet-data{
+      color:#A9A9A9;
+    }
+  }
+  .planet-diameter {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .planet-card {
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: solid 1px #C0C0C0;
+    .planet-details {
+      width: 100%;
+      .planet-name, .planet-terrain {
+        margin-left: 20px;
+        width: calc(100% - 62px);
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    .planet-diameter {
+      width: 100%;
+    }
+  }
+}
