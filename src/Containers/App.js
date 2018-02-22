@@ -1,12 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import SearchPage from '../Components/SearchPage';
+import LoginPage from '../Components/LoginPage';
 
-export default class App extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+class App extends Component {
   render() {
-    return <SearchPage />;
+    const { isUserLoggedIn } = this.props;
+    return (
+      <Fragment>
+        {isUserLoggedIn ? <SearchPage /> : <LoginPage />}
+      </Fragment>
+    );
   }
 }
+
+const mapStateToProps = state => ({
+  isUserLoggedIn: state.loginReducer.isUserLoggedIn,
+});
+
+export default connect(mapStateToProps)(App);
