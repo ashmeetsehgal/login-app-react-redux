@@ -46,7 +46,7 @@ const LoginPage = (props) => {
           data.results.map((i) => { // eslint-disable-line
             if (i.name.toLowerCase() === username.toLowerCase()) {
               if (i.birth_year === password) {
-                const isLuke = username.toLowerCase === 'luke skywalker';
+                const isLuke = username.toLowerCase() === 'luke skywalker';
                 login({
                   isUserLoggedIn: true,
                   username,

@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import PlanetCard from './PlanetCard';
 import { updateSearchResultsAction, updateFetchStatusAction } from '../Actions/searchAction';
 import debounce from '../utils/debouce';
 import throttle from '../utils/throttle';
+import './search-page.scss';
 
 class SearchPage extends Component {
   constructor() {
@@ -13,7 +15,7 @@ class SearchPage extends Component {
     };
   }
   componentDidMount() {
-    const { updateSearchResults } = this.props;
+    const { updateSearchResults, isLuke } = this.props;
     fetch('https://swapi.co/api/planets/?format=json')
       .then(res => res.json())
       .then((data) => {
@@ -23,10 +25,17 @@ class SearchPage extends Component {
           nextUrl: data.next,
         });
       });
-    document.querySelector('.search-textfield').addEventListener(
-      'keydown',
-      debounce(throttle(this.fetchResults, 60000), 500),
-    );
+    if (isLuke) {
+      document.querySelector('.search-textfield').addEventListener(
+        'keydown',
+        debounce(this.fetchResults, 500),
+      );
+    } else {
+      document.querySelector('.search-textfield').addEventListener(
+        'keydown',
+        debounce(throttle(this.fetchResults, 60000), 500),
+      );
+    }
   }
 
   fetchResults = () => {
@@ -75,7 +84,7 @@ class SearchPage extends Component {
         <PlanetCard key={i.name} planetDetails={i} />
       ));
       return planetCards;
-    } return <div> No results found </div>;
+    } return <div className='text-center'> No results found </div>;
   }
 
   render() {
@@ -88,21 +97,23 @@ class SearchPage extends Component {
       prevUrl,
       nextUrl,
       isFetching,
+      username,
     } = props;
     return (
-      <div>
+      <div className='search-container'>
+        <div className='text-center'> Hi {username} </div>
         <input
           className='search-textfield'
           type='text'
-          placeholder='Search'
+          placeholder='Search For Planet'
           value={searchString}
           onChange={updateResults}
         />
-        {isFetching ? <div> Loading </div> :
+        {isFetching ? <div className='text-center'> Loading... </div> :
         <Fragment>
           {renderPlanetCard(results)}
-          {prevUrl && <button onClick={() => goTopage(prevUrl)} > Previous </button>}
-          {nextUrl && <button onClick={() => goTopage(nextUrl)}> Next </button>}
+          {prevUrl && <button onClick={() => goTopage(prevUrl)} className='btn'> Previous </button>}
+          {nextUrl && <button onClick={() => goTopage(nextUrl)} className='btn'> Next </button>}
         </Fragment>
         }
       </div>
@@ -116,6 +127,8 @@ const mapStateToProps = state => ({
   nextUrl: state.searchReducer.nextUrl,
   searchString: state.searchReducer.searchString,
   isFetching: state.searchReducer.isFetching,
+  isLuke: state.loginReducer.isLuke,
+  username: state.loginReducer.username,
 });
 const mapDispatchToProps = dispatch => ({
   updateSearchResults: props => dispatch(updateSearchResultsAction(props)),
@@ -123,3 +136,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+
+SearchPage.propTypes = {
+  updateFetchStatus: PropTypes.func.isRequired,
+  updateSearchResults: PropTypes.func.isRequired,
+  isLuke: PropTypes.bool.isRequired,
+};
