@@ -43,7 +43,7 @@ const LoginPage = (props) => {
             hasError: 'No User Found',
           });
         } else {
-          data.results.map((i) => { // eslint-disable-line
+          data.results.map((i) => {
             if (i.name.toLowerCase() === username.toLowerCase()) {
               if (i.birth_year === password) {
                 const isLuke = username.toLowerCase() === 'luke skywalker';
@@ -57,7 +57,12 @@ const LoginPage = (props) => {
               loginError({
                 hasError: 'Invalid Password',
               });
+              return 0;
             }
+            loginError({
+              hasError: 'No User Found',
+            });
+            return 0;
           });
         }
       });

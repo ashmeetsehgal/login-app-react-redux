@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
-    "start:dev": "webpack-dev-server --config ./webpack.dev.config.js ",
     "build:dev": "webpack --config ./webpack.dev.config.js",
     "build": "webpack -p --config ./webpack.prod.config.js",
     "test": "mocha -w src/testSetup.js \"src/**/*.test.js\" --require ignore-styles"
