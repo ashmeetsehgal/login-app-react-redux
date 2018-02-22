@@ -1,21 +1,20 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+STAR WARS APP WITH SWAPI API
 
-### What is this repository for? ###
+### FEATURES ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* LOGIN WITH REDUX-FORM
+* TYPE-ALONG SEARCH WITH DEBOUCE AND THROTTLE
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Clone the repo
+* npm i
+* npm run build [for prod]
+* npm run build:dev [for dev]
+* npm start
+* npm test [for tests]
 
 ### Contribution guidelines ###
 
@@ -25,5 +24,4 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Ashmeet
