@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PlanetCard from './PlanetCard';
 import { updateSearchResultsAction } from '../Actions/searchAction';
+import Debounce from '../utils/debouce';
 
 class SearchPage extends Component {
   constructor() {
@@ -11,10 +12,25 @@ class SearchPage extends Component {
     };
   }
   componentDidMount() {
+    const { updateSearchResults } = this.props;
     fetch('https://swapi.co/api/planets/?format=json')
       .then(res => res.json())
       .then((data) => {
-        this.props.updateSearchResultsAction({
+        updateSearchResults({
+          results: data.results,
+          prevUrl: data.previous,
+          nextUrl: data.next,
+        });
+      });
+    document.querySelector('.search-textfield').addEventListener('keydown', Debounce(this.fetchResults, 500));
+  }
+
+  fetchResults = () => {
+    const { searchString } = this.state;
+    const { updateSearchResults } = this.props;
+    fetch(`https://swapi.co/api/planets/?search=${searchString}`)
+      .then(res => res.json()).then((data) => {
+        updateSearchResults({
           results: data.results,
           prevUrl: data.previous,
           nextUrl: data.next,
@@ -23,27 +39,23 @@ class SearchPage extends Component {
   }
 
   updateResults = (e) => {
+    const { value } = e.target;
     this.setState({
-      searchString: e.target.value,
-    }, () => {
-      const { searchString } = this.state;
-      fetch(`https://swapi.co/api/planets/?search=${searchString}`)
-        .then(res => res.json()).then((data) => {
-          this.props.updateSearchResultsAction({
-            results: data.results,
-            prevUrl: data.previous,
-            nextUrl: data.next,
-          });
-        });
+      searchString: value,
     });
   }
   goTopage = (url) => {
+    const { updateSearchResults } = this.props;
+    updateSearchResults({
+      isFething: true,
+    });
     fetch(url)
       .then(res => res.json()).then((data) => {
-        this.props.updateSearchResultsAction({
+        updateSearchResults({
           results: data.results,
           prevUrl: data.previous,
           nextUrl: data.next,
+          isFething: false,
         });
       });
   }
@@ -55,22 +67,27 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { searchString } = this.state;
+    const {
+      props, state, updateResults, goTopage, renderPlanetCard,
+    } = this;
+    const { searchString } = state;
     const {
       results,
       prevUrl,
       nextUrl,
-    } = this.props;
+    } = props;
     return (
       <div>
         <input
+          className='search-textfield'
           type='text'
+          placeholder='Search'
           value={searchString}
-          onChange={this.updateResults}
+          onChange={updateResults}
         />
-        {this.renderPlanetCard(results)}
-        {prevUrl && <button onClick={() => this.goTopage(prevUrl)} > Previous </button>}
-        {nextUrl && <button onClick={() => this.goTopage(nextUrl)}> Next </button>}
+        {renderPlanetCard(results)}
+        {prevUrl && <button onClick={() => goTopage(prevUrl)} > Previous </button>}
+        {nextUrl && <button onClick={() => goTopage(nextUrl)}> Next </button>}
       </div>
     );
   }
@@ -83,7 +100,7 @@ const mapStateToProps = state => ({
   searchString: state.searchReducer.searchString,
 });
 const mapDispatchToProps = dispatch => ({
-  updateSearchResultsAction: props => dispatch(updateSearchResultsAction(props)),
+  updateSearchResults: props => dispatch(updateSearchResultsAction(props)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
