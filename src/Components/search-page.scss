@@ -1,0 +1,33 @@
+.search-container{
+  position: absolute;
+  margin: auto;
+  right: 0;
+  top:20px;
+  left: 0;
+  height: 1000px;
+  width: 800px;
+  margin-bottom: 350px;
+  .search-textfield{
+      font-size: 18px;
+      text-align: center;
+      display: block;
+      height: 25px;
+      width:270px;
+      border: 1px solid #C0C0C0;
+      margin: auto;
+  }
+  .text-center{
+      text-align: center;
+      margin:30px;
+  }
+  .btn{
+      height: 31px;
+      width: 80px;
+      background-color: #4c4cff;
+      color: #fff;
+      border-radius: 2px;
+      font-size: 14px;
+      padding: 5px;
+      margin: 5px;
+  }
+}
