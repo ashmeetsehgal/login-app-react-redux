@@ -37,6 +37,16 @@ class SearchPage extends Component {
         });
     });
   }
+  goTopage = (url) => {
+    fetch(url)
+      .then(res => res.json()).then((data) => {
+        this.props.updateSearchResultsAction({
+          results: data.results,
+          prevUrl: data.previous,
+          nextUrl: data.next,
+        });
+      });
+  }
   renderPlanetCard = (results) => {
     const planetCards = results.map(i => (
       <PlanetCard key={i.name} planetDetails={i} />
@@ -59,6 +69,8 @@ class SearchPage extends Component {
           onChange={this.updateResults}
         />
         {this.renderPlanetCard(results)}
+        {prevUrl && <button onClick={() => this.goTopage(prevUrl)} > Previous </button>}
+        {nextUrl && <button onClick={() => this.goTopage(nextUrl)}> Next </button>}
       </div>
     );
   }
