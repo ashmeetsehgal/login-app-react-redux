@@ -39,6 +39,11 @@ module.exports = {
       },
     ],
   },
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
   plugins: [
     new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
