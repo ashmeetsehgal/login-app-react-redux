@@ -7,7 +7,7 @@ const throttle = (func, timeLimit, frequency = 15) => {
     if (inThrottle < frequency) {
       func.apply(context, args);
       inThrottle += 1;
-      setTimeout(() => inThrottle -= 1, timeLimit);
+      setTimeout(() => inThrottle -= 1, timeLimit); // eslint-disable-line
     }
   };
 };
