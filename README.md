@@ -1,6 +1,8 @@
 # README #
 
-STAR WARS APP WITH SWAPI API
+STAR WARS LOGIN & SEARCH APP WITH SWAPI API
+
+![Swapi Logo](https://ph-files.imgix.net/516f1efd-ac50-4c05-82f7-7336830265ad?auto=format&auto=compress&codec=mozjpeg&cs=strip)
 
 ### FEATURES ###
 
