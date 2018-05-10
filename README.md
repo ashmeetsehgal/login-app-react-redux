@@ -16,12 +16,6 @@ STAR WARS APP WITH SWAPI API
 * npm start
 * npm test [for tests]
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
 ### Who do I talk to? ###
 
 * Ashmeet
