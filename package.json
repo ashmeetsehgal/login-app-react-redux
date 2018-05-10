@@ -1,5 +1,5 @@
 {
-  "name": "tekion-assignment",
+  "name": "login-app-react-redux",
   "version": "1.0.0",
   "description": "Project to login as starwar character and search for planets.",
   "main": "index.js",
@@ -11,11 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://ashmeetsehgal@bitbucket.org/ashmeetsehgal/tekion-assignment.git"
+    "url": "https://github.com/ashmeetsehgal/login-app-react-redux"
   },
   "author": "Ashmeet",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/ashmeetsehgal/tekion-assignment#readme",
+  "homepage": "https://github.com/ashmeetsehgal/login-app-react-redux/blob/master/README.md",
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
