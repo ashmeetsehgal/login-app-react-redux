@@ -52,17 +52,17 @@ const LoginPage = (props) => {
                   username,
                   isLuke,
                 });
-                return 0;
+                return null;
               }
               loginError({
                 hasError: 'Invalid Password',
               });
-              return 0;
+              return null;
             }
             loginError({
               hasError: 'No User Found',
             });
-            return 0;
+            return null;
           });
         }
       });
@@ -73,6 +73,9 @@ const LoginPage = (props) => {
       <div className='login-container'>
         <h1 className='login-heading'>STAR WAR</h1>
         <div className='login-box'>
+          <div>
+            For username <strong>luke skywalker</strong>  password is <strong>19BBY</strong>
+          </div>
           <Field
             id='username'
             name='username'
@@ -120,11 +123,16 @@ const mapDispatchToProps = dispatch => ({
   loginError: props => dispatch(loginErrorAction(props)),
 });
 
+const initialValues = {
+  username: 'luke skywalker',
+};
+
 const LoginPageComponent = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
 
 export default reduxForm({
   form: 'login',
   validate,
+  initialValues,
 })(LoginPageComponent);
 
 LoginPage.propTypes = {

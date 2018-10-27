@@ -15,7 +15,7 @@
   },
   "author": "Ashmeet",
   "license": "MIT",
-  "homepage": "https://github.com/ashmeetsehgal/login-app-react-redux/blob/master/README.md",
+  "homepage": "http://ashmeetsehgal.github.io/login-app-react-redux",
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
